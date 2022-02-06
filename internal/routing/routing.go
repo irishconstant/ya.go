@@ -62,7 +62,6 @@ func (h DecoratedHandler) returnURLHandler(w http.ResponseWriter, r *http.Reques
 
 func (h DecoratedHandler) returnShortURL(URL string) (string, error) {
 	clearURL := clearURL(URL)
-	fmt.Println(clearURL)
 	value, isExist := h.originalToShort[clearURL]
 	if isExist {
 		return value, nil
@@ -78,7 +77,6 @@ func (h DecoratedHandler) returnShortURL(URL string) (string, error) {
 func (h DecoratedHandler) returnOriginalURL(shortURL string) (string, bool, error) {
 	shortURL = strings.ToLower(shortURL)
 	shortURL = strings.ReplaceAll(shortURL, "/", "")
-	fmt.Println(shortURL)
 	value, isExist := h.shortToOriginal[shortURL]
 	return value, isExist, nil
 }
