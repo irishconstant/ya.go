@@ -2,6 +2,7 @@ package routing
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -33,10 +34,17 @@ func RouterStart() {
 func (h DecoratedHandler) returnURLHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
-		params := make(map[string]string)
-		params["url"] = r.FormValue("url")
-		params[""] = r.FormValue("")
-		shortURLKey, _ := h.returnShortURL(params[""])
+		//params := make(map[string]string)
+		bodyBytes, _ := ioutil.ReadAll(r.Body)
+		bodyString := string(bodyBytes)
+		fmt.Println(bodyString)
+		/*
+			fmt.Println(r.FormValue("url"))
+			fmt.Println(r.FormValue(""))
+			params["url"] = r.FormValue("url")
+			params[""] = r.FormValue("")
+		*/
+		shortURLKey, _ := h.returnShortURL(bodyString)
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		w.WriteHeader(http.StatusCreated)
 		fmt.Fprintf(w, h.domainName+"/"+shortURLKey)
@@ -47,6 +55,7 @@ func (h DecoratedHandler) returnURLHandler(w http.ResponseWriter, r *http.Reques
 		if isExist {
 			//w.Header().Set("Content-Type", "text/html; charset=utf-8")
 			w.Header().Set("Location", "http://"+originalURL)
+			fmt.Println("Header: ", w.Header())
 			w.WriteHeader(http.StatusTemporaryRedirect)
 			fmt.Fprintf(w, "%s", originalURL)
 		} else {
