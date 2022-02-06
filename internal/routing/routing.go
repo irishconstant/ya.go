@@ -47,7 +47,7 @@ func (h DecoratedHandler) returnURLHandler(w http.ResponseWriter, r *http.Reques
 		fmt.Println("Оригинальный УРЛ, который вернулся: ", originalURL)
 		if isExist {
 			//w.Header().Set("Content-Type", "text/html; charset=utf-8")
-			w.Header().Set("Location", "http://"+originalURL)
+			w.Header().Set("Location", originalURL)
 			fmt.Println("Header: ", w.Header())
 			w.WriteHeader(http.StatusTemporaryRedirect)
 			fmt.Fprintf(w, "%s", originalURL)
