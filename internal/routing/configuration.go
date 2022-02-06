@@ -8,9 +8,7 @@ type DecoratedHandler struct {
 
 //Config выполняет первоначальную конфигурацию сервиса и возвращает - имя домена, соответствие  ключа к оригинальному URL
 func Config() (DecoratedHandler, error) {
-	var (
-		domainName string = "http://localhost:8080"
-	)
+	domainName := "http://localhost:8080"
 	originalToShort := make(map[string]string)
 	shortToOriginal := make(map[string]string)
 	handler := DecoratedHandler{domainName: domainName, originalToShort: originalToShort, shortToOriginal: shortToOriginal}
